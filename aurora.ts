@@ -5,9 +5,18 @@ import { Engine } from '@aurora-is-near/engine';
 import { program } from 'commander';
 import { readFileSync } from 'fs';
 
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      NEAR_MASTER_ACCOUNT?: string;
+      NEAR_EVM_ACCOUNT?: string;
+    }
+  }
+}
+
 main(process.argv, process.env);
 
-async function main(argv, env) {
+async function main(argv: string[], env: NodeJS.ProcessEnv) {
   program
     .option('-d, --debug', 'enable debug output')
     .option("--signer <account>", "specify signer master account ID", env.NEAR_MASTER_ACCOUNT || 'test.near')
@@ -15,10 +24,10 @@ async function main(argv, env) {
 
   program
     .command('init')
-    .option("--chain <id>", "specify EVM chain ID", 0)
-    .option("--owner <account>", "specify owner account ID", null)
-    .option("--bridge-prover <account>", "specify bridge prover account ID", null)
-    .option("--upgrade-delay <blocks>", "specify upgrade delay block count", 0)
+    .option("--chain <id>", "specify EVM chain ID", '0')
+    .option("--owner <account>", "specify owner account ID", '')
+    .option("--bridge-prover <account>", "specify bridge prover account ID", '')
+    .option("--upgrade-delay <blocks>", "specify upgrade delay block count", '0')
     .action(async (options, command) => {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
@@ -111,7 +120,7 @@ async function main(argv, env) {
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
       const output = await engine.call(readInput(address), readInput(input));
-      console.log(`0x${output ? output.toString('hex') : ''}`);
+      console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
     });
 
   program
@@ -131,13 +140,13 @@ async function main(argv, env) {
   program
     .command('view <address> <input>')
     .option("--sender <address>", "specify the sender address", '0x0000000000000000000000000000000000000000') // TODO
-    .option("--amount <value>", "attach an ETH amount", 0)
+    .option("--amount <value>", "attach an ETH amount", '0')
     .action(async (address, input, options, command) => {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
       const output = await engine.view(options.sender, readInput(address), BigInt(config.amount), readInput(input));
-      console.log(`0x${output ? output.toString('hex') : ''}`);
+      console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
     });
 
   program
@@ -148,7 +157,7 @@ async function main(argv, env) {
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
       const code = await engine.getCode(readInput(address));
-      console.log(`0x${code ? code.toString('hex') : ''}`);
+      console.log(`0x${code ? Buffer.from(code).toString('hex') : ''}`);
     });
 
   program
@@ -201,7 +210,7 @@ async function main(argv, env) {
   program.parse(process.argv);
 }
 
-function readInput(input) {
+function readInput(input: string): string {
   try {
     return (input[0] == '@') ? readFileSync(input.substring(1), 'ascii').trim() : input;
   } catch (err) {

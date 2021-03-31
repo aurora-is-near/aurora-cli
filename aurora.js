@@ -21,10 +21,10 @@ function main(argv, env) {
             .option("--evm <account>", "specify EVM contract account ID", env.NEAR_EVM_ACCOUNT || 'aurora.test.near');
         program
             .command('init')
-            .option("--chain <id>", "specify EVM chain ID", 0)
-            .option("--owner <account>", "specify owner account ID", null)
-            .option("--bridge-prover <account>", "specify bridge prover account ID", null)
-            .option("--upgrade-delay <blocks>", "specify upgrade delay block count", 0)
+            .option("--chain <id>", "specify EVM chain ID", '0')
+            .option("--owner <account>", "specify owner account ID", '')
+            .option("--bridge-prover <account>", "specify bridge prover account ID", '')
+            .option("--upgrade-delay <blocks>", "specify upgrade delay block count", '0')
             .action((options, command) => __awaiter(this, void 0, void 0, function* () {
             const config = Object.assign(Object.assign({}, command.parent.opts()), options);
             if (config.debug)
@@ -116,7 +116,7 @@ function main(argv, env) {
                 console.debug("Options:", config);
             const engine = yield Engine.connect(config, env);
             const output = yield engine.call(readInput(address), readInput(input));
-            console.log(`0x${output ? output.toString('hex') : ''}`);
+            console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
         }));
         program
             .command('raw-call <input>')
@@ -133,14 +133,14 @@ function main(argv, env) {
         program
             .command('view <address> <input>')
             .option("--sender <address>", "specify the sender address", '0x0000000000000000000000000000000000000000') // TODO
-            .option("--amount <value>", "attach an ETH amount", 0)
+            .option("--amount <value>", "attach an ETH amount", '0')
             .action((address, input, options, command) => __awaiter(this, void 0, void 0, function* () {
             const config = Object.assign(Object.assign({}, command.parent.opts()), options);
             if (config.debug)
                 console.debug("Options:", config);
             const engine = yield Engine.connect(config, env);
             const output = yield engine.view(options.sender, readInput(address), BigInt(config.amount), readInput(input));
-            console.log(`0x${output ? output.toString('hex') : ''}`);
+            console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
         }));
         program
             .command('get-code <address>')
@@ -151,7 +151,7 @@ function main(argv, env) {
                 console.debug("Options:", config);
             const engine = yield Engine.connect(config, env);
             const code = yield engine.getCode(readInput(address));
-            console.log(`0x${code ? code.toString('hex') : ''}`);
+            console.log(`0x${code ? Buffer.from(code).toString('hex') : ''}`);
         }));
         program
             .command('get-balance <address>')
