@@ -1,2 +1,14 @@
+# macOS
+.DS_Store
+
+# Visual Studio Code
+.vscode/
+
+# IDEA
+.idea
+
+# Editor backup files
+*~
+
 # Node packages
 node_modules/
