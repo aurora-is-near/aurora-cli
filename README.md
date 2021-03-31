@@ -1,4 +1,4 @@
-# Aurora Command-Line Interface (CLI)
+# Aurora Engine Command-Line Interface (CLI)
 
 ## Prerequisites
 

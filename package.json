@@ -16,6 +16,9 @@
     "aurora.js",
     "aurora.d.ts"
   ],
+  "bin": {
+    "aurora": "./aurora.js"
+  },
   "scripts": {
     "test": "make check"
   },

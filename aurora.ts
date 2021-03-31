@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+/* This is free and unencumbered software released into the public domain. */
+
 import { Engine } from '@aurora-is-near/engine';
 import { program } from 'commander';
 import { readFileSync } from 'fs';
