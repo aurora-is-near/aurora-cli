@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "scripts": {
+    "deploy": "node deploy.js"
+  },
+  "dependencies": {
+    "@aurora-is-near/engine": "../clients/js",
+    "commander": "^7.2.0"
+  }
+}
