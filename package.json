@@ -4,7 +4,7 @@
     "deploy": "node deploy.js"
   },
   "dependencies": {
-    "@aurora-is-near/engine": "../clients/js",
+    "@aurora-is-near/engine": "git://github.com/aurora-is-near/aurora.js",
     "commander": "^7.2.0"
   }
 }
