@@ -1,10 +1,35 @@
 {
+  "name": "@aurora-is-near/cli",
+  "version": "0.0.0",
+  "description": "Aurora Engine command-line interface (CLI).",
   "type": "module",
+  "module": "aurora.js",
+  "main": "aurora.js",
+  "types": "aurora.d.ts",
+  "files": [
+    "AUTHORS",
+    "CHANGES.md",
+    "README.md",
+    "LICENSE",
+    "VERSION",
+    "package.json",
+    "aurora.js",
+    "aurora.d.ts"
+  ],
   "scripts": {
-    "deploy": "node deploy.js"
+    "test": "make check"
   },
+  "keywords": [],
+  "author": "Arto Bendiken <arto@near.org> (https://ar.to)",
+  "license": "CC0-1.0",
+  "homepage": "https://github.com/aurora-is-near/aurora-cli",
+  "bugs": "https://github.com/aurora-is-near/aurora-cli/issues",
+  "repository": "https://github.com/aurora-is-near/aurora-cli.git",
   "dependencies": {
     "@aurora-is-near/engine": "git://github.com/aurora-is-near/aurora.js",
     "commander": "^7.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.3"
   }
 }
