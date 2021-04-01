@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /* This is free and unencumbered software released into the public domain. */
 
-import { Engine } from '@aurora-is-near/engine';
+import { Engine, KeyPair, KeyStore } from '@aurora-is-near/engine';
 import { program } from 'commander';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 
 declare global {
   namespace NodeJS {
@@ -19,8 +19,25 @@ main(process.argv, process.env);
 async function main(argv: string[], env: NodeJS.ProcessEnv) {
   program
     .option('-d, --debug', 'enable debug output')
+    .option('-v, --verbose', 'enable verbose output')
     .option("--signer <account>", "specify signer master account ID", env.NEAR_MASTER_ACCOUNT || 'test.near')
     .option("--evm <account>", "specify EVM contract account ID", env.NEAR_EVM_ACCOUNT || 'aurora.test.near');
+
+  program
+    .command('install <contract>')
+    .option("--chain <id>", "specify EVM chain ID", '0')
+    .option("--owner <account>", "specify owner account ID", '')
+    .option("--bridge-prover <account>", "specify bridge prover account ID", '')
+    .option("--upgrade-delay <blocks>", "specify upgrade delay block count", '0')
+    .action(async (contractPath, options, command) => {
+      const config = {...command.parent.opts(), ...options};
+      if (config.debug) console.debug("Options:", config);
+      const engine = await Engine.connect(config, env);
+      loadLocalKeys(engine.keyStore, config, env);
+      const contractCode = await readFileSync(contractPath);
+      const transactionID = await engine.install(contractCode);
+      if (config.verbose || config.debug) console.log(transactionID);
+    });
 
   program
     .command('init')
@@ -217,4 +234,20 @@ function readInput(input: string): string {
     console.error(err.toString());
     process.exit(-1);
   }
+}
+
+function loadLocalKeys(keyStore: KeyStore, options: any, env: any) {
+  if (env && env.HOME) {
+    const localValidatorKeyPath = `${env.HOME}/.near/validator_key.json`;
+    if (existsSync(localValidatorKeyPath)) {
+      const [accountID, keyPair] = loadKeyFile(localValidatorKeyPath);
+      keyStore.setKey('local', accountID, keyPair);
+    }
+  }
+}
+
+function loadKeyFile(keyFilePath: string) {
+  const keyJSON = JSON.parse(readFileSync(keyFilePath, 'utf8'));
+  const keyPair = KeyPair.fromString(keyJSON.private_key || keyJSON.secret_key);
+  return [keyJSON.account_id, keyPair];
 }

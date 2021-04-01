@@ -9,16 +9,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { Engine } from '@aurora-is-near/engine';
+import { Engine, KeyPair } from '@aurora-is-near/engine';
 import { program } from 'commander';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 main(process.argv, process.env);
 function main(argv, env) {
     return __awaiter(this, void 0, void 0, function* () {
         program
             .option('-d, --debug', 'enable debug output')
+            .option('-v, --verbose', 'enable verbose output')
             .option("--signer <account>", "specify signer master account ID", env.NEAR_MASTER_ACCOUNT || 'test.near')
             .option("--evm <account>", "specify EVM contract account ID", env.NEAR_EVM_ACCOUNT || 'aurora.test.near');
+        program
+            .command('install <contract>')
+            .option("--chain <id>", "specify EVM chain ID", '0')
+            .option("--owner <account>", "specify owner account ID", '')
+            .option("--bridge-prover <account>", "specify bridge prover account ID", '')
+            .option("--upgrade-delay <blocks>", "specify upgrade delay block count", '0')
+            .action((contractPath, options, command) => __awaiter(this, void 0, void 0, function* () {
+            const config = Object.assign(Object.assign({}, command.parent.opts()), options);
+            if (config.debug)
+                console.debug("Options:", config);
+            const engine = yield Engine.connect(config, env);
+            loadLocalKeys(engine.keyStore, config, env);
+            const contractCode = yield readFileSync(contractPath);
+            const transactionID = yield engine.install(contractCode);
+            if (config.verbose || config.debug)
+                console.log(transactionID);
+        }));
         program
             .command('init')
             .option("--chain <id>", "specify EVM chain ID", '0')
@@ -209,4 +227,18 @@ function readInput(input) {
         console.error(err.toString());
         process.exit(-1);
     }
+}
+function loadLocalKeys(keyStore, options, env) {
+    if (env && env.HOME) {
+        const localValidatorKeyPath = `${env.HOME}/.near/validator_key.json`;
+        if (existsSync(localValidatorKeyPath)) {
+            const [accountID, keyPair] = loadKeyFile(localValidatorKeyPath);
+            keyStore.setKey('local', accountID, keyPair);
+        }
+    }
+}
+function loadKeyFile(keyFilePath) {
+    const keyJSON = JSON.parse(readFileSync(keyFilePath, 'utf8'));
+    const keyPair = KeyPair.fromString(keyJSON.private_key || keyJSON.secret_key);
+    return [keyJSON.account_id, keyPair];
 }
