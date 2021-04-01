@@ -36,10 +36,11 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const engine = await Engine.connect(config, env);
       loadLocalKeys(engine.keyStore, config, env);
       const contractCode = await readFileSync(contractPath);
-      const transactionID = await engine.install(contractCode);
-      if (config.verbose || config.debug) console.log(transactionID);
-      const outcome = await engine.initialize(config);
-      if (config.debug) console.debug("Outcome:", outcome);
+      // TODO: combine these both into a single transaction:
+      const transactionID1 = (await engine.install(contractCode)).unwrap();
+      if (config.verbose || config.debug) console.log(transactionID1);
+      const transactionID2 = (await engine.initialize(config)).unwrap();
+      if (config.verbose || config.debug) console.log(transactionID2);
     });
 
   program
@@ -54,8 +55,8 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
       loadLocalKeys(engine.keyStore, config, env);
-      const outcome = await engine.initialize(config);
-      if (config.debug) console.debug("Outcome:", outcome);
+      const transactionID = (await engine.initialize(config)).unwrap();
+      if (config.verbose || config.debug) console.log(transactionID);
     });
 
   program
@@ -65,7 +66,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
-      const result = await engine.getVersion();
+      const result = (await engine.getVersion()).unwrap();
       const version = result.substring(0, result.length - 1);
       console.log(version);
     });
@@ -77,7 +78,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
-      const accountID = await engine.getOwner();
+      const accountID = (await engine.getOwner()).unwrap();
       console.log(accountID);
     });
 
@@ -88,7 +89,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
-      const accountID = await engine.getBridgeProvider();
+      const accountID = (await engine.getBridgeProvider()).unwrap();
       console.log(accountID);
     });
 
@@ -99,7 +100,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
-      const chainID = await engine.getChainID();
+      const chainID = (await engine.getChainID()).unwrap();
       console.log(chainID.toString());
     });
 
@@ -131,7 +132,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
-      const address = await engine.deployCode(readInput(input));
+      const address = (await engine.deployCode(readInput(input))).unwrap();
       console.log(address);
     });
 
@@ -141,7 +142,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
-      const output = await engine.call(readInput(address), readInput(input));
+      const output = (await engine.call(readInput(address), readInput(input))).unwrap();
       console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
     });
 
@@ -167,7 +168,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
-      const output = await engine.view(options.sender, readInput(address), BigInt(config.amount), readInput(input));
+      const output = (await engine.view(options.sender, readInput(address), BigInt(config.amount), readInput(input))).unwrap();
       console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
     });
 
@@ -178,7 +179,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
-      const code = await engine.getCode(readInput(address));
+      const code = (await engine.getCode(readInput(address))).unwrap();
       console.log(`0x${code ? Buffer.from(code).toString('hex') : ''}`);
     });
 
@@ -189,7 +190,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
-      const balance = await engine.getBalance(readInput(address));
+      const balance = (await engine.getBalance(readInput(address))).unwrap();
       console.log(balance.toString());
     });
 
@@ -200,7 +201,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
-      const nonce = await engine.getNonce(readInput(address));
+      const nonce = (await engine.getNonce(readInput(address))).unwrap();
       console.log(nonce.toString());
     });
 
@@ -211,7 +212,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
-      const value = await engine.getStorageAt(readInput(address), key);
+      const value = (await engine.getStorageAt(readInput(address), key)).unwrap();
       console.log(value.toString());
     });
 
