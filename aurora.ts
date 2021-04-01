@@ -25,6 +25,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('install <contract>')
+    .alias('upgrade')
     .option("--chain <id>", "specify EVM chain ID", '0')
     .option("--owner <account>", "specify owner account ID", '')
     .option("--bridge-prover <account>", "specify bridge prover account ID", '')
@@ -40,7 +41,8 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     });
 
   program
-    .command('init')
+    .command('initialize')
+    .alias('init')
     .option("--chain <id>", "specify EVM chain ID", '0')
     .option("--owner <account>", "specify owner account ID", '')
     .option("--bridge-prover <account>", "specify bridge prover account ID", '')
@@ -49,6 +51,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const config = {...command.parent.opts(), ...options};
       if (config.debug) console.debug("Options:", config);
       const engine = await Engine.connect(config, env);
+      loadLocalKeys(engine.keyStore, config, env);
       const outcome = await engine.initialize(config);
       if (config.debug) console.debug("Outcome:", outcome);
     });
