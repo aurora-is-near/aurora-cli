@@ -22,6 +22,7 @@ function main(argv, env) {
             .option("--evm <account>", "specify EVM contract account ID", env.NEAR_EVM_ACCOUNT || 'aurora.test.near');
         program
             .command('install <contract>')
+            .alias('upgrade')
             .option("--chain <id>", "specify EVM chain ID", '0')
             .option("--owner <account>", "specify owner account ID", '')
             .option("--bridge-prover <account>", "specify bridge prover account ID", '')
@@ -36,9 +37,13 @@ function main(argv, env) {
             const transactionID = yield engine.install(contractCode);
             if (config.verbose || config.debug)
                 console.log(transactionID);
+            const outcome = yield engine.initialize(config);
+            if (config.debug)
+                console.debug("Outcome:", outcome);
         }));
         program
-            .command('init')
+            .command('initialize')
+            .alias('init')
             .option("--chain <id>", "specify EVM chain ID", '0')
             .option("--owner <account>", "specify owner account ID", '')
             .option("--bridge-prover <account>", "specify bridge prover account ID", '')
@@ -48,6 +53,7 @@ function main(argv, env) {
             if (config.debug)
                 console.debug("Options:", config);
             const engine = yield Engine.connect(config, env);
+            loadLocalKeys(engine.keyStore, config, env);
             const outcome = yield engine.initialize(config);
             if (config.debug)
                 console.debug("Outcome:", outcome);

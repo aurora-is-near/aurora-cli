@@ -38,6 +38,8 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const contractCode = await readFileSync(contractPath);
       const transactionID = await engine.install(contractCode);
       if (config.verbose || config.debug) console.log(transactionID);
+      const outcome = await engine.initialize(config);
+      if (config.debug) console.debug("Outcome:", outcome);
     });
 
   program
