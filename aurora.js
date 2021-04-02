@@ -94,7 +94,7 @@ async function main(argv, env) {
     });
     program
         .command('deploy-code <bytecode>')
-        .alias('deploy_code')
+        .aliases(['deploy', 'deploy_code'])
         .action(async (input, options, command) => {
         const [config, engine] = await loadConfig(command, options, env);
         const address = (await engine.deployCode(readInput(input))).unwrap();
@@ -171,6 +171,13 @@ async function main(argv, env) {
         .alias('begin_block')
         .action(async (hash, options, command) => {
         // TODO
+    });
+    program
+        .command('dump-storage')
+        .alias('dump_storage')
+        .action(async (options, command) => {
+        const [config, engine] = await loadConfig(command, options, env);
+        console.error('not implemented yet'); // TODO
     });
     program.parse(process.argv);
 }
