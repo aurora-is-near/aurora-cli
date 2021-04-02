@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* This is free and unencumbered software released into the public domain. */
-import { Engine, KeyPair } from '@aurora-is-near/engine';
+import { Engine, KeyPair, formatU256 } from '@aurora-is-near/engine';
 import { program } from 'commander';
 import { existsSync, readFileSync } from 'fs';
 main(process.argv, process.env);
@@ -177,7 +177,19 @@ async function main(argv, env) {
         .alias('dump_storage')
         .action(async (options, command) => {
         const [config, engine] = await loadConfig(command, options, env);
-        console.error('not implemented yet'); // TODO
+        const result = (await engine.getStorage()).unwrap();
+        if (config.debug) {
+            console.log("Storage:", result);
+        }
+        else {
+            for (const record of result.values()) {
+                const { address, nonce, balance, code, storage } = record;
+                console.log(`${address} nonce=${nonce} balance=${balance} code=${code ? code.length : 0}B`);
+                for (const [k, v] of storage) {
+                    console.log(`  ${formatU256(k)} ${formatU256(v)}`);
+                }
+            }
+        }
     });
     program.parse(process.argv);
 }
