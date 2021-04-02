@@ -1,16 +1,13 @@
 #!/usr/bin/env node
 /* This is free and unencumbered software released into the public domain. */
 
-import { Engine, KeyPair, KeyStore, formatU256 } from '@aurora-is-near/engine';
+import { ConnectEnv, Engine, KeyPair, KeyStore, formatU256 } from '@aurora-is-near/engine';
 import { program } from 'commander';
 import { existsSync, readFileSync } from 'fs';
 
 declare global {
   namespace NodeJS {
-    interface ProcessEnv {
-      NEAR_MASTER_ACCOUNT?: string;
-      NEAR_EVM_ACCOUNT?: string;
-    }
+    interface ProcessEnv extends ConnectEnv {}
   }
 }
 
@@ -20,8 +17,10 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
   program
     .option('-d, --debug', 'enable debug output')
     .option('-v, --verbose', 'enable verbose output')
-    .option("--signer <account>", "specify signer master account ID", env.NEAR_MASTER_ACCOUNT || 'test.near')
-    .option("--evm <account>", "specify EVM contract account ID", env.NEAR_EVM_ACCOUNT || 'aurora.test.near');
+    .option("--network <network>", "specify NEAR network ID", env.NEAR_ENV || 'local')
+    .option("--endpoint <url>", "specify NEAR RPC endpoint URL", env.NEAR_URL)
+    .option("--engine <account>", "specify Aurora Engine account ID", env.AURORA_ENGINE)
+    .option("--signer <account>", "specify signer account ID", env.NEAR_MASTER_ACCOUNT || 'test.near');
 
   program
     .command('install <contract>')
@@ -228,7 +227,12 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 async function loadConfig(command: any, options: any, env: any): Promise<[any, Engine]> {
   const config = {...command.parent.opts(), ...options};
   if (config.debug) console.debug("Options:", config);
-  const engine = await Engine.connect(config, env);
+  const engine = await Engine.connect({
+    network: config.network,
+    endpoint: config.endpoint,
+    contract: config.engine,
+    signer: config.signer,
+  });
   loadLocalKeys(engine.keyStore, config, env);
   return [config, engine];
 }

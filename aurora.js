@@ -8,8 +8,10 @@ async function main(argv, env) {
     program
         .option('-d, --debug', 'enable debug output')
         .option('-v, --verbose', 'enable verbose output')
-        .option("--signer <account>", "specify signer master account ID", env.NEAR_MASTER_ACCOUNT || 'test.near')
-        .option("--evm <account>", "specify EVM contract account ID", env.NEAR_EVM_ACCOUNT || 'aurora.test.near');
+        .option("--network <network>", "specify NEAR network ID", env.NEAR_ENV || 'local')
+        .option("--endpoint <url>", "specify NEAR RPC endpoint URL", env.NEAR_URL)
+        .option("--engine <account>", "specify Aurora Engine account ID", env.AURORA_ENGINE)
+        .option("--signer <account>", "specify signer account ID", env.NEAR_MASTER_ACCOUNT || 'test.near');
     program
         .command('install <contract>')
         .alias('upgrade')
@@ -197,7 +199,12 @@ async function loadConfig(command, options, env) {
     const config = { ...command.parent.opts(), ...options };
     if (config.debug)
         console.debug("Options:", config);
-    const engine = await Engine.connect(config, env);
+    const engine = await Engine.connect({
+        network: config.network,
+        endpoint: config.endpoint,
+        contract: config.engine,
+        signer: config.signer,
+    });
     loadLocalKeys(engine.keyStore, config, env);
     return [config, engine];
 }

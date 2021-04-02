@@ -1,10 +1,8 @@
 #!/usr/bin/env node
+import { ConnectEnv } from '@aurora-is-near/engine';
 declare global {
     namespace NodeJS {
-        interface ProcessEnv {
-            NEAR_MASTER_ACCOUNT?: string;
-            NEAR_EVM_ACCOUNT?: string;
+        interface ProcessEnv extends ConnectEnv {
         }
     }
 }
-export {};
