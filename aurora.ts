@@ -224,7 +224,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
   program.parse(process.argv);
 }
 
-async function loadConfig(command: any, options: any, env: any): Promise<[any, Engine]> {
+async function loadConfig(command: any, options: any, env: ConnectEnv): Promise<[any, Engine]> {
   const config = {...command.parent.opts(), ...options};
   if (config.debug) console.debug("Options:", config);
   const engine = await Engine.connect({
@@ -232,7 +232,7 @@ async function loadConfig(command: any, options: any, env: any): Promise<[any, E
     endpoint: config.endpoint,
     contract: config.engine,
     signer: config.signer,
-  });
+  }, env);
   loadLocalKeys(engine.keyStore, config, env);
   return [config, engine];
 }

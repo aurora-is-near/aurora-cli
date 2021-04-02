@@ -204,7 +204,7 @@ async function loadConfig(command, options, env) {
         endpoint: config.endpoint,
         contract: config.engine,
         signer: config.signer,
-    });
+    }, env);
     loadLocalKeys(engine.keyStore, config, env);
     return [config, engine];
 }
