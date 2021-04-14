@@ -29,7 +29,7 @@
   "bugs": "https://github.com/aurora-is-near/aurora-cli/issues",
   "repository": "https://github.com/aurora-is-near/aurora-cli.git",
   "dependencies": {
-    "@aurora-is-near/engine": "git://github.com/aurora-is-near/aurora.js",
+    "@aurora-is-near/engine": "git://github.com/aurora-is-near/aurora.js#303f482",
     "commander": "^7.2.0"
   },
   "devDependencies": {
