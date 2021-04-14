@@ -82,3 +82,12 @@ Options:
   --upgrade-delay <blocks>   specify upgrade delay block count (default: "0")
   -h, --help                 display help for command
 ```
+
+## Development
+
+### Local development
+
+```sh
+alias aurora='node aurora.js'
+export NEAR_URL=http://localhost:3030
+```
