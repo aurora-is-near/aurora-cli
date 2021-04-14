@@ -13,6 +13,10 @@
 npm install -g aurora-is-near/aurora-cli
 ```
 
+## Usage
+
+See https://github.com/aurora-is-near/aurora-engine#usage
+
 ## Reference
 
 ### `aurora help`
@@ -33,25 +37,25 @@ Options:
 Commands:
   install|upgrade [options] <contract>
   initialize|init [options]
-  get-version|get_version
-  get-owner|get_owner
-  get-bridge-provider|get_bridge_provider
-  get-chain-id|get_chain_id
-  get-upgrade-index|get_upgrade_index
-  stage-upgrade|stage_upgrade
-  deploy-upgrade|deploy_upgrade
+  get-version
+  get-owner
+  get-bridge-provider
+  get-chain-id
+  get-upgrade-index
+  stage-upgrade
+  deploy-upgrade
   deploy-code|deploy <bytecode>
   call <address> <input>
-  raw-call|raw_call <input>
-  meta-call|meta_call
+  raw-call <input>
+  meta-call
   view [options] <address> <input>
-  get-code|get_code <address>
-  get-balance|get_balance <address>
-  get-nonce|get_nonce <address>
-  get-storage-at|get_storage_at <address> <key>
-  begin-chain|begin_chain <id>
-  begin-block|begin_block <hash>
-  dump-storage|dump_storage
+  get-code <address>
+  get-balance <address>
+  get-nonce <address>
+  get-storage-at <address> <key>
+  begin-chain <id>
+  begin-block <hash>
+  dump-storage
   help [command]                                 display help for command
 ```
 
@@ -81,6 +85,199 @@ Options:
   --bridge-prover <account>  specify bridge prover account ID (default: "")
   --upgrade-delay <blocks>   specify upgrade delay block count (default: "0")
   -h, --help                 display help for command
+```
+
+### `aurora get-version`
+
+```console
+$ aurora get-version -h
+Usage: aurora get-version|get_version [options]
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora get-owner`
+
+```console
+$ aurora get-owner -h
+Usage: aurora get-owner|get_owner [options]
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora get-bridge-provider`
+
+```console
+$ aurora get-bridge-provider -h
+Usage: aurora get-bridge-provider|get_bridge_provider [options]
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora get-chain-id`
+
+```console
+$ aurora get-chain-id -h
+Usage: aurora get-chain-id|get_chain_id [options]
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora get-upgrade-index`
+
+```console
+$ aurora get-upgrade-index -h
+Usage: aurora get-upgrade-index|get_upgrade_index [options]
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora stage-upgrade`
+
+```console
+$ aurora stage-upgrade -h
+Usage: aurora stage-upgrade|stage_upgrade [options]
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora deploy-upgrade`
+
+```console
+$ aurora deploy-upgrade -h
+Usage: aurora deploy-upgrade|deploy_upgrade [options]
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora deploy-code`
+
+```console
+$ aurora deploy-code -h
+Usage: aurora deploy-code|deploy [options] <bytecode>
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora call`
+
+```console
+$ aurora call -h
+Usage: aurora call [options] <address> <input>
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora raw-call`
+
+```console
+$ aurora raw-call -h
+Usage: aurora raw-call|raw_call [options] <input>
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora meta-call`
+
+```console
+$ aurora meta-call -h
+Usage: aurora meta-call|meta_call [options]
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora view`
+
+```console
+$ aurora view -h
+Usage: aurora view [options] <address> <input>
+
+Options:
+  --sender <address>  specify the sender address (default:
+                      "0x0000000000000000000000000000000000000000")
+  --amount <value>    attach an ETH amount (default: "0")
+  -h, --help          display help for command
+```
+
+### `aurora get-code`
+
+```console
+$ aurora get-code -h
+Usage: aurora get-code|get_code [options] <address>
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora get-balance`
+
+```console
+$ aurora get-balance -h
+Usage: aurora get-balance|get_balance [options] <address>
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora get-nonce`
+
+```console
+$ aurora get-nonce -h
+Usage: aurora get-nonce|get_nonce [options] <address>
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora get-storage-at`
+
+```console
+$ aurora get-storage-at -h
+Usage: aurora get-storage-at|get_storage_at [options] <address> <key>
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora begin-chain`
+
+```console
+$ aurora begin-chain -h
+Usage: aurora begin-chain|begin_chain [options] <id>
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora begin-block`
+
+```console
+$ aurora begin-block -h
+Usage: aurora begin-block|begin_block [options] <hash>
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora dump-storage`
+
+```console
+$ aurora dump-storage -h
+Usage: aurora dump-storage|dump_storage [options]
+
+Options:
+  -h, --help  display help for command
 ```
 
 ## Development
