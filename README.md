@@ -23,12 +23,16 @@ Usage: aurora [options] [command]
 
 Options:
   -d, --debug                                    enable debug output
-  --signer <account>                             specify signer master account ID (default: "test.near")
-  --evm <account>                                specify EVM contract account ID (default: "aurora.test.near")
+  -v, --verbose                                  enable verbose output
+  --network <network>                            specify NEAR network ID (default: "local")
+  --endpoint <url>                               specify NEAR RPC endpoint URL
+  --engine <account>                             specify Aurora Engine account ID
+  --signer <account>                             specify signer account ID (default: "test.near")
   -h, --help                                     display help for command
 
 Commands:
-  init [options]
+  install|upgrade [options] <contract>
+  initialize|init [options]
   get-version|get_version
   get-owner|get_owner
   get-bridge-provider|get_bridge_provider
@@ -36,7 +40,7 @@ Commands:
   get-upgrade-index|get_upgrade_index
   stage-upgrade|stage_upgrade
   deploy-upgrade|deploy_upgrade
-  deploy-code|deploy_code <bytecode>
+  deploy-code|deploy <bytecode>
   call <address> <input>
   raw-call|raw_call <input>
   meta-call|meta_call
@@ -47,19 +51,34 @@ Commands:
   get-storage-at|get_storage_at <address> <key>
   begin-chain|begin_chain <id>
   begin-block|begin_block <hash>
+  dump-storage|dump_storage
   help [command]                                 display help for command
+```
+
+### `aurora install`
+
+```console
+$ aurora install -h
+Usage: aurora install|upgrade [options] <contract>
+
+Options:
+  --chain <id>               specify EVM chain ID (default: "0")
+  --owner <account>          specify owner account ID (default: "")
+  --bridge-prover <account>  specify bridge prover account ID (default: "")
+  --upgrade-delay <blocks>   specify upgrade delay block count (default: "0")
+  -h, --help                 display help for command
 ```
 
 ### `aurora init`
 
 ```console
 $ aurora init -h
-Usage: aurora init [options]
+Usage: aurora initialize|init [options]
 
 Options:
-  --chain <id>               specify EVM chain ID (default: 0)
-  --owner <account>          specify owner account ID (default: null)
-  --bridge-prover <account>  specify bridge prover account ID (default: null)
-  --upgrade-delay <blocks>   specify upgrade delay block count (default: 0)
+  --chain <id>               specify EVM chain ID (default: "0")
+  --owner <account>          specify owner account ID (default: "")
+  --bridge-prover <account>  specify bridge prover account ID (default: "")
+  --upgrade-delay <blocks>   specify upgrade delay block count (default: "0")
   -h, --help                 display help for command
 ```
