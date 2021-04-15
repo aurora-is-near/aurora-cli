@@ -20,6 +20,29 @@ See https://github.com/aurora-is-near/aurora-engine#usage
 
 ## Reference
 
+- [`aurora help`](#aurora-help)
+- [`aurora install`](#aurora-install)
+- [`aurora init`](#aurora-init)
+- [`aurora get-version`](#aurora-get-version)
+- [`aurora get-owner`](#aurora-get-owner)
+- [`aurora get-bridge-provider`](#aurora-get-bridge-provider)
+- [`aurora get-chain-id`](#aurora-get-chain-id)
+- [`aurora get-upgrade-index`](#aurora-get-upgrade-index)
+- [`aurora stage-upgrade`](#aurora-stage-upgrade)
+- [`aurora deploy-upgrade`](#aurora-deploy-upgrade)
+- [`aurora deploy-code`](#aurora-deploy-code)
+- [`aurora call`](#aurora-call)
+- [`aurora raw-call`](#aurora-raw-call)
+- [`aurora meta-call`](#aurora-meta-call)
+- [`aurora view`](#aurora-view)
+- [`aurora get-code`](#aurora-get-code)
+- [`aurora get-balance`](#aurora-get-balance)
+- [`aurora get-nonce`](#aurora-get-nonce)
+- [`aurora get-storage-at`](#aurora-get-storage-at)
+- [`aurora begin-chain`](#aurora-begin-chain)
+- [`aurora begin-block`](#aurora-begin-block)
+- [`aurora dump-storage`](#aurora-dump-storage)
+
 ### `aurora help`
 
 ```console
