@@ -9,8 +9,8 @@
   "files": [
     "AUTHORS",
     "CHANGES.md",
-    "README.md",
     "LICENSE",
+    "README.md",
     "VERSION",
     "package.json",
     "aurora.js",
@@ -22,8 +22,15 @@
   "scripts": {
     "test": "make check"
   },
-  "keywords": [],
-  "author": "Arto Bendiken <arto@near.org> (https://ar.to)",
+  "keywords": [
+    "Aurora",
+    "Ethereum",
+    "NEAR"
+  ],
+  "author": "aurora.dev",
+  "authors": [
+    "Arto Bendiken <arto@near.org> (https://ar.to)"
+  ],
   "license": "CC0-1.0",
   "homepage": "https://github.com/aurora-is-near/aurora-cli",
   "bugs": "https://github.com/aurora-is-near/aurora-cli/issues",
