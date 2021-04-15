@@ -1,4 +1,5 @@
 TSC = npx tsc
+TYPEDOC = npx typedoc
 
 # The default target:
 
@@ -13,8 +14,11 @@ all: aurora.js
 
 %.d.ts: %.js
 
+docs:
+	$(TYPEDOC) --out $@
+
 clean:
-	@rm -Rf *.js *.d.ts *~
+	@rm -Rf docs *.js *.d.ts *~
 
 distclean: clean
 
