@@ -1,15 +1,23 @@
 {
   "files": ["aurora.ts"],
+  "extends": "@tsconfig/node14/tsconfig.json",
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2020",
+    "module": "es2020",
+    "moduleResolution": "node",
     "declaration": true,
+    "isolatedModules": true,
     "strict": true,
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node"
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true
   },
   "typedocOptions": {
     "entryPoints": ["aurora.ts"],
-    "name": "Aurora CLI",
     "includeVersion": false,
     "hideGenerator": true
   }

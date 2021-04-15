@@ -47,7 +47,7 @@ async function main(argv, env) {
         .command('get-version')
         .alias('get_version')
         .action(async (options, command) => {
-        const [config, engine] = await loadConfig(command, options, env);
+        const [_, engine] = await loadConfig(command, options, env);
         const result = (await engine.getVersion()).unwrap();
         const version = result.substring(0, result.length - 1);
         console.log(version);
@@ -56,7 +56,7 @@ async function main(argv, env) {
         .command('get-owner')
         .alias('get_owner')
         .action(async (options, command) => {
-        const [config, engine] = await loadConfig(command, options, env);
+        const [_, engine] = await loadConfig(command, options, env);
         const accountID = (await engine.getOwner()).unwrap();
         console.log(accountID);
     });
@@ -64,7 +64,7 @@ async function main(argv, env) {
         .command('get-bridge-provider')
         .alias('get_bridge_provider')
         .action(async (options, command) => {
-        const [config, engine] = await loadConfig(command, options, env);
+        const [_, engine] = await loadConfig(command, options, env);
         const accountID = (await engine.getBridgeProvider()).unwrap();
         console.log(accountID);
     });
@@ -72,7 +72,7 @@ async function main(argv, env) {
         .command('get-chain-id')
         .aliases(['get_chain_id', 'get-chain', 'get_chain'])
         .action(async (options, command) => {
-        const [config, engine] = await loadConfig(command, options, env);
+        const [_, engine] = await loadConfig(command, options, env);
         const chainID = (await engine.getChainID()).unwrap();
         console.log(chainID.toString());
     });
@@ -98,14 +98,14 @@ async function main(argv, env) {
         .command('deploy-code <bytecode>')
         .aliases(['deploy', 'deploy_code'])
         .action(async (input, options, command) => {
-        const [config, engine] = await loadConfig(command, options, env);
+        const [_, engine] = await loadConfig(command, options, env);
         const address = (await engine.deployCode(readInput(input))).unwrap();
         console.log(address);
     });
     program
         .command('call <address> <input>')
         .action(async (address, input, options, command) => {
-        const [config, engine] = await loadConfig(command, options, env);
+        const [_, engine] = await loadConfig(command, options, env);
         const output = (await engine.call(readInput(address), readInput(input))).unwrap();
         console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
     });
@@ -134,7 +134,7 @@ async function main(argv, env) {
         .command('get-code <address>')
         .alias('get_code')
         .action(async (address, options, command) => {
-        const [config, engine] = await loadConfig(command, options, env);
+        const [_, engine] = await loadConfig(command, options, env);
         const code = (await engine.getCode(readInput(address))).unwrap();
         console.log(`0x${code ? Buffer.from(code).toString('hex') : ''}`);
     });
@@ -142,7 +142,7 @@ async function main(argv, env) {
         .command('get-balance <address>')
         .alias('get_balance')
         .action(async (address, options, command) => {
-        const [config, engine] = await loadConfig(command, options, env);
+        const [_, engine] = await loadConfig(command, options, env);
         const balance = (await engine.getBalance(readInput(address))).unwrap();
         console.log(balance.toString());
     });
@@ -150,7 +150,7 @@ async function main(argv, env) {
         .command('get-nonce <address>')
         .alias('get_nonce')
         .action(async (address, options, command) => {
-        const [config, engine] = await loadConfig(command, options, env);
+        const [_, engine] = await loadConfig(command, options, env);
         const nonce = (await engine.getNonce(readInput(address))).unwrap();
         console.log(nonce.toString());
     });
@@ -158,20 +158,20 @@ async function main(argv, env) {
         .command('get-storage-at <address> <key>')
         .aliases(['get_storage_at', 'get-storage', 'get_storage'])
         .action(async (address, key, options, command) => {
-        const [config, engine] = await loadConfig(command, options, env);
+        const [_, engine] = await loadConfig(command, options, env);
         const value = (await engine.getStorageAt(readInput(address), key)).unwrap();
         console.log(value.toString());
     });
     program
         .command('begin-chain <id>')
         .alias('begin_chain')
-        .action(async (chain_id, options, command) => {
+        .action(async (_chain_id, _options, _command) => {
         // TODO
     });
     program
         .command('begin-block <hash>') // TODO
         .alias('begin_block')
-        .action(async (hash, options, command) => {
+        .action(async (_hash, _options, _command) => {
         // TODO
     });
     program
@@ -193,7 +193,7 @@ async function main(argv, env) {
             }
         }
     });
-    program.parse(process.argv);
+    program.parse(argv);
 }
 async function loadConfig(command, options, env) {
     const config = { ...command.parent.opts(), ...options };
@@ -208,7 +208,7 @@ async function loadConfig(command, options, env) {
     loadLocalKeys(engine.keyStore, config, env);
     return [config, engine];
 }
-function loadLocalKeys(keyStore, options, env) {
+function loadLocalKeys(keyStore, _options, env) {
     if (env && env.HOME) {
         const localValidatorKeyPath = `${env.HOME}/.near/validator_key.json`;
         if (existsSync(localValidatorKeyPath)) {
