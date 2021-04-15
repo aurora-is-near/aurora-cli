@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "description": "Aurora Engine command-line interface (CLI).",
   "type": "module",
-  "module": "aurora.js",
-  "main": "aurora.js",
-  "types": "aurora.d.ts",
+  "module": "lib/aurora.js",
+  "main": "lib/aurora.js",
+  "types": "lib/aurora.d.ts",
   "files": [
     "AUTHORS",
     "CHANGES.md",
@@ -13,13 +13,14 @@
     "README.md",
     "VERSION",
     "package.json",
-    "aurora.js",
-    "aurora.d.ts"
+    "lib/aurora.js",
+    "lib/aurora.d.ts"
   ],
   "bin": {
-    "aurora": "./aurora.js"
+    "aurora": "lib/aurora.js"
   },
   "scripts": {
+    "build": "tsc",
     "test": "make check"
   },
   "keywords": [

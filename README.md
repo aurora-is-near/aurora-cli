@@ -309,6 +309,6 @@ Options:
 ### Local development
 
 ```sh
-alias aurora='node aurora.js'
+alias aurora='node lib/aurora.js'
 export NEAR_URL=http://localhost:3030
 ```

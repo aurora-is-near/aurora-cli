@@ -1,7 +1,8 @@
 {
-  "files": ["aurora.ts"],
+  "files": ["src/aurora.ts"],
   "extends": "@tsconfig/node14/tsconfig.json",
   "compilerOptions": {
+    "outDir": "./lib",
     "target": "es2020",
     "module": "es2020",
     "moduleResolution": "node",
