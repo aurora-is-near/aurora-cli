@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* This is free and unencumbered software released into the public domain. */
 
-import { ConnectEnv, Engine, formatU256 } from '@aurora-is-near/engine';
+import { Account, ConnectEnv, Engine, formatU256 } from '@aurora-is-near/engine';
 import { program } from 'commander';
 import { readFileSync } from 'fs';
 
@@ -221,6 +221,12 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
           }
         }
       }
+    });
+
+  program
+    .command('encode-address <account>')
+    .action(async (account: string, _options, _command) => {
+      console.log(Account.parse(account).unwrap().toAddress());
     });
 
   program.parse(argv);

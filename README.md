@@ -42,6 +42,7 @@ See https://github.com/aurora-is-near/aurora-engine#usage
 - [`aurora begin-chain`](#aurora-begin-chain)
 - [`aurora begin-block`](#aurora-begin-block)
 - [`aurora dump-storage`](#aurora-dump-storage)
+- [`aurora encode-address`](#aurora-encode-address)
 
 ### `aurora help`
 
@@ -80,6 +81,7 @@ Commands:
   begin-chain <id>
   begin-block <hash>
   dump-storage
+  encode-address <account>
   help [command]                                 display help for command
 ```
 
@@ -299,6 +301,16 @@ Options:
 ```console
 $ aurora dump-storage -h
 Usage: aurora dump-storage|dump_storage [options]
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora encode-address`
+
+```console
+$ aurora encode-address -h
+Usage: aurora encode-address [options] <account>
 
 Options:
   -h, --help  display help for command
