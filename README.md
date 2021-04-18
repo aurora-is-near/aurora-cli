@@ -16,7 +16,16 @@ npm install -g aurora-is-near/aurora-cli
 
 ## Usage
 
-See https://github.com/aurora-is-near/aurora-engine#usage
+See https://github.com/aurora-is-near/aurora-engine#usage for usage examples.
+
+### Key Management
+
+The CLI will load the following local keys by default, if found:
+
+- `$HOME/.near-credentials/*/*.json`: credentials stored by the NEAR CLI
+
+- `$HOME/.near/validator_key.json`: the local `nearcore` validator key
+  (for the `test.near` master account)
 
 ## Reference
 
