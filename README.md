@@ -43,6 +43,7 @@ See https://github.com/aurora-is-near/aurora-engine#usage
 - [`aurora begin-block`](#aurora-begin-block)
 - [`aurora dump-storage`](#aurora-dump-storage)
 - [`aurora encode-address`](#aurora-encode-address)
+- [`aurora encode-transaction-id`](#aurora-encode-transaction-id)
 
 ### `aurora help`
 
@@ -65,7 +66,7 @@ Commands:
   get-version
   get-owner
   get-bridge-provider
-  get-chain-id
+  get-chain-id|get-chain
   get-upgrade-index
   stage-upgrade
   deploy-upgrade
@@ -77,12 +78,13 @@ Commands:
   get-code <address>
   get-balance <address>
   get-nonce <address>
-  get-storage-at <address> <key>
+  get-storage-at|get-storage <address> <key>
   begin-chain <id>
   begin-block <hash>
   dump-storage
   encode-address <account>
-  help [command]                                 display help for command
+  encode-transaction-id <base58>
+  help [command]                              display help for command
 ```
 
 ### `aurora install`
@@ -311,6 +313,16 @@ Options:
 ```console
 $ aurora encode-address -h
 Usage: aurora encode-address [options] <account>
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora encode-transaction-id`
+
+```console
+$ aurora encode-transaction-id -h
+Usage: aurora encode-transaction-id [options] <base58>
 
 Options:
   -h, --help  display help for command
