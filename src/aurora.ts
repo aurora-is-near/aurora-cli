@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /* This is free and unencumbered software released into the public domain. */
 
-import { ConnectEnv, Engine, KeyPair, KeyStore, formatU256 } from '@aurora-is-near/engine';
+import { ConnectEnv, Engine, formatU256 } from '@aurora-is-near/engine';
 import { program } from 'commander';
-import { existsSync, readFileSync } from 'fs';
+import { readFileSync } from 'fs';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -235,24 +235,7 @@ async function loadConfig(command: any, options: any, env: ConnectEnv): Promise<
     contract: config.engine,
     signer: config.signer,
   }, env);
-  loadLocalKeys(engine.keyStore, config, env);
   return [config, engine];
-}
-
-function loadLocalKeys(keyStore: KeyStore, _options: any, env: any) {
-  if (env && env.HOME) {
-    const localValidatorKeyPath = `${env.HOME}/.near/validator_key.json`;
-    if (existsSync(localValidatorKeyPath)) {
-      const [accountID, keyPair] = loadKeyFile(localValidatorKeyPath);
-      keyStore.setKey('local', accountID, keyPair);
-    }
-  }
-}
-
-function loadKeyFile(keyFilePath: string) {
-  const keyJSON = JSON.parse(readFileSync(keyFilePath, 'utf8'));
-  const keyPair = KeyPair.fromString(keyJSON.private_key || keyJSON.secret_key);
-  return [keyJSON.account_id, keyPair];
 }
 
 function readInput(input: string): string {
