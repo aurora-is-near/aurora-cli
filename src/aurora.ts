@@ -56,7 +56,6 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('get-version')
-    .alias('get_version')
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const result = (await engine.getVersion()).unwrap();
@@ -66,7 +65,6 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('get-owner')
-    .alias('get_owner')
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const accountID = (await engine.getOwner()).unwrap();
@@ -75,7 +73,6 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('get-bridge-provider')
-    .alias('get_bridge_provider')
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const accountID = (await engine.getBridgeProvider()).unwrap();
@@ -84,7 +81,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('get-chain-id')
-    .aliases(['get_chain_id', 'get-chain', 'get_chain'])
+    .alias('get-chain')
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const chainID = (await engine.getChainID()).unwrap();
@@ -93,28 +90,25 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('get-upgrade-index')
-    .alias('get_upgrade_index')
     .action(async (_options, _command) => {
       // TODO
     });
 
   program
     .command('stage-upgrade')
-    .alias('stage_upgrade')
     .action(async (_options, _command) => {
       // TODO
     });
 
   program
     .command('deploy-upgrade')
-    .alias('deploy_upgrade')
     .action(async (_options, _command) => {
       // TODO
     });
 
   program
     .command('deploy-code <bytecode>')
-    .aliases(['deploy', 'deploy_code'])
+    .alias('deploy')
     .action(async (input, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const address = (await engine.deployCode(readInput(input))).unwrap();
@@ -131,14 +125,12 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('raw-call <input>')
-    .alias('raw_call')
     .action(async (_input, _options, _command) => {
       // TODO
     });
 
   program
     .command('meta-call') // TODO
-    .alias('meta_call')
     .action(async (_options, _command) => {
       // TODO
     });
@@ -155,7 +147,6 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('get-code <address>')
-    .alias('get_code')
     .action(async (address, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const code = (await engine.getCode(readInput(address))).unwrap();
@@ -164,7 +155,6 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('get-balance <address>')
-    .alias('get_balance')
     .action(async (address, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const balance = (await engine.getBalance(readInput(address))).unwrap();
@@ -173,7 +163,6 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('get-nonce <address>')
-    .alias('get_nonce')
     .action(async (address, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const nonce = (await engine.getNonce(readInput(address))).unwrap();
@@ -182,7 +171,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('get-storage-at <address> <key>')
-    .aliases(['get_storage_at', 'get-storage', 'get_storage'])
+    .alias('get-storage')
     .action(async (address, key, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const value = (await engine.getStorageAt(readInput(address), key)).unwrap();
@@ -191,21 +180,18 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('begin-chain <id>')
-    .alias('begin_chain')
     .action(async (_chain_id, _options, _command) => {
       // TODO
     });
 
   program
     .command('begin-block <hash>') // TODO
-    .alias('begin_block')
     .action(async (_hash, _options, _command) => {
       // TODO
     });
 
   program
     .command('dump-storage')
-    .alias('dump_storage')
     .action(async (options, command) => {
       const [config, engine] = await loadConfig(command, options, env);
       const result = (await engine.getStorage()).unwrap();
