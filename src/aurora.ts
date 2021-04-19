@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* This is free and unencumbered software released into the public domain. */
 
-import { Account, ConnectEnv, Engine, base58ToHex, formatU256 } from '@aurora-is-near/engine';
+import { AccountID, Address, ConnectEnv, Engine, base58ToHex, formatU256 } from '@aurora-is-near/engine';
 import { program } from 'commander';
 import { readFileSync } from 'fs';
 
@@ -119,7 +119,8 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .command('call <address> <input>')
     .action(async (address, input, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
-      const output = (await engine.call(readInput(address), readInput(input))).unwrap();
+      const address_ = Address.parse(readInput(address)).unwrap();
+      const output = (await engine.call(address_, readInput(input))).unwrap();
       console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
     });
 
@@ -141,7 +142,9 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .option("--amount <value>", "attach an ETH amount", '0')
     .action(async (address, input, options, command) => {
       const [config, engine] = await loadConfig(command, options, env);
-      const output = (await engine.view(options.sender, readInput(address), BigInt(config.amount), readInput(input))).unwrap();
+      const senderAddress = Address.parse(options.sender).unwrap();
+      const address_ = Address.parse(readInput(address)).unwrap();
+      const output = (await engine.view(senderAddress, address_, BigInt(config.amount), readInput(input))).unwrap();
       console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
     });
 
@@ -149,7 +152,8 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .command('get-code <address>')
     .action(async (address, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
-      const code = (await engine.getCode(readInput(address))).unwrap();
+      const address_ = Address.parse(readInput(address)).unwrap();
+      const code = (await engine.getCode(address_)).unwrap();
       console.log(`0x${code ? Buffer.from(code).toString('hex') : ''}`);
     });
 
@@ -157,7 +161,8 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .command('get-balance <address>')
     .action(async (address, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
-      const balance = (await engine.getBalance(readInput(address))).unwrap();
+      const address_ = Address.parse(readInput(address)).unwrap();
+      const balance = (await engine.getBalance(address_)).unwrap();
       console.log(balance.toString());
     });
 
@@ -165,7 +170,8 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .command('get-nonce <address>')
     .action(async (address, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
-      const nonce = (await engine.getNonce(readInput(address))).unwrap();
+      const address_ = Address.parse(readInput(address)).unwrap();
+      const nonce = (await engine.getNonce(address_)).unwrap();
       console.log(nonce.toString());
     });
 
@@ -174,7 +180,8 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .alias('get-storage')
     .action(async (address, key, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
-      const value = (await engine.getStorageAt(readInput(address), key)).unwrap();
+      const address_ = Address.parse(readInput(address)).unwrap();
+      const value = (await engine.getStorageAt(address_, key)).unwrap();
       console.log(value.toString());
     });
 
@@ -212,7 +219,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
   program
     .command('encode-address <account>')
     .action(async (account: string, _options, _command) => {
-      console.log(Account.parse(account).unwrap().toAddress());
+      console.log(AccountID.parse(account).unwrap().toAddress().toString());
     });
 
   program
