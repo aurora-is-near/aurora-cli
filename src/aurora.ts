@@ -33,7 +33,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .option("--upgrade-delay <blocks>", "specify upgrade delay block count", '0')
     .action(async (contractPath, options, command) => {
       const [config, engine] = await loadConfig(command, options, env);
-      const contractCode = await readFileSync(contractPath);
+      const contractCode = readFileSync(contractPath);
       // TODO: combine these both into a single transaction:
       const transactionID1 = (await engine.install(contractCode)).unwrap();
       if (config.verbose || config.debug) console.log(transactionID1);
