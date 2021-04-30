@@ -1,7 +1,14 @@
 #!/usr/bin/env node
 /* This is free and unencumbered software released into the public domain. */
 
-import { AccountID, Address, ConnectEnv, Engine, base58ToHex, formatU256 } from '@aurora-is-near/engine';
+import {
+  AccountID,
+  Address,
+  ConnectEnv,
+  Engine,
+  base58ToHex,
+  formatU256,
+} from '@aurora-is-near/engine';
 import { program } from 'commander';
 import { readFileSync } from 'fs';
 
@@ -19,18 +26,34 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
   program
     .option('-d, --debug', 'enable debug output')
     .option('-v, --verbose', 'enable verbose output')
-    .option("--network <network>", "specify NEAR network ID", env.NEAR_ENV || 'local')
-    .option("--endpoint <url>", "specify NEAR RPC endpoint URL", env.NEAR_URL)
-    .option("--engine <account>", "specify Aurora Engine account ID", env.AURORA_ENGINE)
-    .option("--signer <account>", "specify signer account ID", env.NEAR_MASTER_ACCOUNT || 'test.near');
+    .option(
+      '--network <network>',
+      'specify NEAR network ID',
+      env.NEAR_ENV || 'local'
+    )
+    .option('--endpoint <url>', 'specify NEAR RPC endpoint URL', env.NEAR_URL)
+    .option(
+      '--engine <account>',
+      'specify Aurora Engine account ID',
+      env.AURORA_ENGINE
+    )
+    .option(
+      '--signer <account>',
+      'specify signer account ID',
+      env.NEAR_MASTER_ACCOUNT || 'test.near'
+    );
 
   program
     .command('install <contract>')
     .alias('upgrade')
-    .option("--chain <id>", "specify EVM chain ID", '0')
-    .option("--owner <account>", "specify owner account ID", '')
-    .option("--bridge-prover <account>", "specify bridge prover account ID", '')
-    .option("--upgrade-delay <blocks>", "specify upgrade delay block count", '0')
+    .option('--chain <id>', 'specify EVM chain ID', '0')
+    .option('--owner <account>', 'specify owner account ID', '')
+    .option('--bridge-prover <account>', 'specify bridge prover account ID', '')
+    .option(
+      '--upgrade-delay <blocks>',
+      'specify upgrade delay block count',
+      '0'
+    )
     .action(async (contractPath, options, command) => {
       const [config, engine] = await loadConfig(command, options, env);
       const contractCode = readFileSync(contractPath);
@@ -44,17 +67,21 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
   program
     .command('initialize')
     .alias('init')
-    .option("--chain <id>", "specify EVM chain ID", '0')
-    .option("--owner <account>", "specify owner account ID", '')
-    .option("--bridge-prover <account>", "specify bridge prover account ID", '')
-    .option("--upgrade-delay <blocks>", "specify upgrade delay block count", '0')
+    .option('--chain <id>', 'specify EVM chain ID', '0')
+    .option('--owner <account>', 'specify owner account ID', '')
+    .option('--bridge-prover <account>', 'specify bridge prover account ID', '')
+    .option(
+      '--upgrade-delay <blocks>',
+      'specify upgrade delay block count',
+      '0'
+    )
     .action(async (options, command) => {
       const [config, engine] = await loadConfig(command, options, env);
       const transactionID = (await engine.initialize(config)).unwrap();
       if (config.verbose || config.debug) console.log(transactionID);
     });
 
-  program
+  program //
     .command('get-version')
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
@@ -63,7 +90,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       console.log(version);
     });
 
-  program
+  program //
     .command('get-owner')
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
@@ -71,7 +98,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       console.log(accountID);
     });
 
-  program
+  program //
     .command('get-bridge-provider')
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
@@ -88,19 +115,19 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       console.log(chainID.toString());
     });
 
-  program
+  program //
     .command('get-upgrade-index')
     .action(async (_options, _command) => {
       // TODO
     });
 
-  program
+  program //
     .command('stage-upgrade')
     .action(async (_options, _command) => {
       // TODO
     });
 
-  program
+  program //
     .command('deploy-upgrade')
     .action(async (_options, _command) => {
       // TODO
@@ -140,13 +167,24 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
 
   program
     .command('view <address> <input>')
-    .option("--sender <address>", "specify the sender address", '0x0000000000000000000000000000000000000000') // TODO
-    .option("--amount <value>", "attach an ETH amount", '0')
+    .option(
+      '--sender <address>',
+      'specify the sender address',
+      '0x0000000000000000000000000000000000000000'
+    ) // TODO
+    .option('--amount <value>', 'attach an ETH amount', '0')
     .action(async (address, input, options, command) => {
       const [config, engine] = await loadConfig(command, options, env);
       const senderAddress = Address.parse(options.sender).unwrap();
       const address_ = Address.parse(readInput(address)).unwrap();
-      const output = (await engine.view(senderAddress, address_, BigInt(config.amount), readInput(input))).unwrap();
+      const output = (
+        await engine.view(
+          senderAddress,
+          address_,
+          BigInt(config.amount),
+          readInput(input)
+        )
+      ).unwrap();
       console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
     });
 
@@ -199,18 +237,21 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       // TODO
     });
 
-  program
+  program //
     .command('dump-storage')
     .action(async (options, command) => {
       const [config, engine] = await loadConfig(command, options, env);
       const result = (await engine.getStorage()).unwrap();
       if (config.debug) {
-        console.log("Storage:", result);
-      }
-      else {
+        console.log('Storage:', result);
+      } else {
         for (const record of result.values()) {
           const { address, nonce, balance, code, storage } = record;
-          console.log(`${address} nonce=${nonce} balance=${balance} code=${code ? code.length : 0}B`);
+          console.log(
+            `${address} nonce=${nonce} balance=${balance} code=${
+              code ? code.length : 0
+            }B`
+          );
           for (const [k, v] of storage) {
             console.log(`  ${formatU256(k)} ${formatU256(v)}`);
           }
@@ -233,21 +274,30 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
   program.parse(argv);
 }
 
-async function loadConfig(command: any, options: any, env: ConnectEnv): Promise<[any, Engine]> {
-  const config = {...command.parent.opts(), ...options};
-  if (config.debug) console.debug("Options:", config);
-  const engine = await Engine.connect({
-    network: config.network,
-    endpoint: config.endpoint,
-    contract: config.engine,
-    signer: config.signer,
-  }, env);
+async function loadConfig(
+  command: any,
+  options: any,
+  env: ConnectEnv
+): Promise<[any, Engine]> {
+  const config = { ...command.parent.opts(), ...options };
+  if (config.debug) console.debug('Options:', config);
+  const engine = await Engine.connect(
+    {
+      network: config.network,
+      endpoint: config.endpoint,
+      contract: config.engine,
+      signer: config.signer,
+    },
+    env
+  );
   return [config, engine];
 }
 
 function readInput(input: string): string {
   try {
-    return (input[0] == '@') ? readFileSync(input.substring(1), 'ascii').trim() : input;
+    return input[0] == '@'
+      ? readFileSync(input.substring(1), 'ascii').trim()
+      : input;
   } catch (err) {
     console.error(err.toString());
     process.exit(-1);
