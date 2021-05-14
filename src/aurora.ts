@@ -258,9 +258,10 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     });
 
   program
-    .command('encode-transaction-id <base58>')
-    .action(async (transaction_id: string, _options, _command) => {
-      console.log(base58ToHex(transaction_id));
+    .command('encode-hash <base58>')
+    .aliases(['encode-block-id', 'encode-transaction-id'])
+    .action(async (hash: string, _options, _command) => {
+      console.log(base58ToHex(hash));
     });
 
   program.parse(argv);

@@ -51,7 +51,7 @@ The CLI will load the following local keys by default, if found:
 - [`aurora begin-block`](#aurora-begin-block)
 - [`aurora dump-storage`](#aurora-dump-storage)
 - [`aurora encode-address`](#aurora-encode-address)
-- [`aurora encode-transaction-id`](#aurora-encode-transaction-id)
+- [`aurora encode-hash`](#aurora-encode-hash)
 
 ### `aurora help`
 
@@ -90,7 +90,7 @@ Commands:
   begin-block <hash>
   dump-storage
   encode-address <account>
-  encode-transaction-id <base58>
+  encode-hash <base58>
   help [command]                              display help for command
 ```
 
@@ -315,11 +315,11 @@ Options:
   -h, --help  display help for command
 ```
 
-### `aurora encode-transaction-id`
+### `aurora encode-hash`
 
 ```console
-$ aurora encode-transaction-id -h
-Usage: aurora encode-transaction-id [options] <base58>
+$ aurora encode-hash -h
+Usage: aurora encode-hash [options] <base58>
 
 Options:
   -h, --help  display help for command
