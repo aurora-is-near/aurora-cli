@@ -34,7 +34,7 @@ The CLI will load the following local keys by default, if found:
 - [`aurora init`](#aurora-init)
 - [`aurora get-version`](#aurora-get-version)
 - [`aurora get-owner`](#aurora-get-owner)
-- [`aurora get-bridge-provider`](#aurora-get-bridge-provider)
+- [`aurora get-bridge-prover`](#aurora-get-bridge-prover)
 - [`aurora get-chain-id`](#aurora-get-chain-id)
 - [`aurora get-upgrade-index`](#aurora-get-upgrade-index)
 - [`aurora stage-upgrade`](#aurora-stage-upgrade)
@@ -73,7 +73,7 @@ Commands:
   initialize|init [options]
   get-version
   get-owner
-  get-bridge-provider
+  get-bridge-prover
   get-chain-id|get-chain
   get-upgrade-index
   stage-upgrade
@@ -142,11 +142,11 @@ Options:
   -h, --help  display help for command
 ```
 
-### `aurora get-bridge-provider`
+### `aurora get-bridge-prover`
 
 ```console
-$ aurora get-bridge-provider -h
-Usage: aurora get-bridge-provider|get_bridge_provider [options]
+$ aurora get-bridge-prover -h
+Usage: aurora get-bridge-prover|get_bridge_prover [options]
 
 Options:
   -h, --help  display help for command

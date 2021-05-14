@@ -95,15 +95,15 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const accountID = (await engine.getOwner()).unwrap();
-      console.log(accountID);
+      console.log(accountID.toString());
     });
 
   program //
-    .command('get-bridge-provider')
+    .command('get-bridge-prover')
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const accountID = (await engine.getBridgeProvider()).unwrap();
-      console.log(accountID);
+      console.log(accountID.toString());
     });
 
   program
@@ -139,7 +139,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .action(async (input, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const address = (await engine.deployCode(readInput(input))).unwrap();
-      console.log(address);
+      console.log(address.toString());
     });
 
   program
