@@ -152,14 +152,6 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     });
 
   program
-    .command('raw-call <input>')
-    .action(async (input, options, command) => {
-      const [_, engine] = await loadConfig(command, options, env);
-      const output = (await engine.rawCall(readInput(input))).unwrap();
-      console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
-    });
-
-  program
     .command('meta-call') // TODO
     .action(async (_options, _command) => {
       // TODO

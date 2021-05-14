@@ -41,7 +41,6 @@ The CLI will load the following local keys by default, if found:
 - [`aurora deploy-upgrade`](#aurora-deploy-upgrade)
 - [`aurora deploy-code`](#aurora-deploy-code)
 - [`aurora call`](#aurora-call)
-- [`aurora raw-call`](#aurora-raw-call)
 - [`aurora meta-call`](#aurora-meta-call)
 - [`aurora view`](#aurora-view)
 - [`aurora get-code`](#aurora-get-code)
@@ -81,7 +80,6 @@ Commands:
   deploy-upgrade
   deploy-code|deploy <bytecode>
   call <address> <input>
-  raw-call <input>
   meta-call
   view [options] <address> <input>
   get-code <address>
@@ -209,16 +207,6 @@ Options:
 ```console
 $ aurora call -h
 Usage: aurora call [options] <address> <input>
-
-Options:
-  -h, --help  display help for command
-```
-
-### `aurora raw-call`
-
-```console
-$ aurora raw-call -h
-Usage: aurora raw-call|raw_call [options] <input>
 
 Options:
   -h, --help  display help for command
