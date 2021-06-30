@@ -11,6 +11,7 @@ import {
 } from '@aurora-is-near/engine';
 import { program } from 'commander';
 import { readFileSync } from 'fs';
+const { Table } = require('console-table-printer');
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -57,11 +58,13 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .action(async (contractPath, options, command) => {
       const [config, engine] = await loadConfig(command, options, env);
       const contractCode = readFileSync(contractPath);
+      const p = new Table();
       // TODO: combine these both into a single transaction:
       const transactionID1 = (await engine.install(contractCode)).unwrap();
-      if (config.verbose || config.debug) console.log(transactionID1);
+      p.addRow({ Type: "Install", Transaction_ID: transactionID1 });
       const transactionID2 = (await engine.initialize(config)).unwrap();
-      if (config.verbose || config.debug) console.log(transactionID2);
+      p.addRow({ Type: "Initialize", Transaction_ID: transactionID2 });
+      if (config.verbose || config.debug) p.printTable();
     });
 
   program
@@ -78,7 +81,9 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .action(async (options, command) => {
       const [config, engine] = await loadConfig(command, options, env);
       const transactionID = (await engine.initialize(config)).unwrap();
-      if (config.verbose || config.debug) console.log(transactionID);
+      const p = new Table();
+      p.addRow({ Transaction_ID: transactionID });
+      if (config.verbose || config.debug) p.printTable();
     });
 
   program //
@@ -95,7 +100,9 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const accountID = (await engine.getOwner()).unwrap();
-      console.log(accountID.toString());
+      const p = new Table();
+      p.addRow({ engine_owner: accountID.toString() });
+      p.printTable();
     });
 
   program //
@@ -103,7 +110,9 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const accountID = (await engine.getBridgeProvider()).unwrap();
-      console.log(accountID.toString());
+      const p = new Table();
+      p.addRow({ bridge_prover: accountID.toString() });
+      p.printTable();
     });
 
   program
@@ -112,7 +121,9 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const chainID = (await engine.getChainID()).unwrap();
-      console.log(chainID.toString());
+      const p = new Table();
+      p.addRow({ chain_id: chainID.toString() });
+      p.printTable();
     });
 
   program //
@@ -139,7 +150,9 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .action(async (input, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const address = (await engine.deployCode(readInput(input))).unwrap();
-      console.log(address.toString());
+      const p = new Table();
+      p.addRow({ contract: address.toString() });
+      p.printTable();
     });
 
   program
@@ -148,7 +161,11 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const [_, engine] = await loadConfig(command, options, env);
       const address_ = Address.parse(readInput(address)).unwrap();
       const output = (await engine.call(address_, readInput(input))).unwrap();
-      console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
+      const p = new Table();
+      p.addRow(
+        { contract: address, inputs: input, output: `0x${output ? Buffer.from(output).toString('hex') : ''}` }
+      );
+      p.printTable();
     });
 
   program
@@ -177,7 +194,11 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
           readInput(input)
         )
       ).unwrap();
-      console.log(`0x${output ? Buffer.from(output).toString('hex') : ''}`);
+      const p = new Table();
+      p.addRow(
+        { contract: address, inputs: input, output: `0x${output ? Buffer.from(output).toString('hex') : ''}` }
+      );
+      p.printTable();
     });
 
   program
@@ -186,7 +207,11 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const [_, engine] = await loadConfig(command, options, env);
       const address_ = Address.parse(readInput(address)).unwrap();
       const code = (await engine.getCode(address_)).unwrap();
-      console.log(`0x${code ? Buffer.from(code).toString('hex') : ''}`);
+      const p = new Table();
+      p.addRow(
+        { contract: address, code: `0x${code ? Buffer.from(code).toString('hex') : ''}` }
+      );
+      p.printTable();
     });
 
   program
@@ -195,7 +220,11 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const [_, engine] = await loadConfig(command, options, env);
       const address_ = Address.parse(readInput(address)).unwrap();
       const balance = (await engine.getBalance(address_)).unwrap();
-      console.log(balance.toString());
+      const p = new Table();
+      p.addRow(
+        { address: address, balance: balance.toString() }
+      );
+      p.printTable();
     });
 
   program
@@ -204,7 +233,11 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const [_, engine] = await loadConfig(command, options, env);
       const address_ = Address.parse(readInput(address)).unwrap();
       const nonce = (await engine.getNonce(address_)).unwrap();
-      console.log(nonce.toString());
+      const p = new Table();
+      p.addRow(
+        { address: address, nonce: nonce.toString() }
+      );
+      p.printTable();
     });
 
   program
@@ -214,7 +247,11 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const [_, engine] = await loadConfig(command, options, env);
       const address_ = Address.parse(readInput(address)).unwrap();
       const value = (await engine.getStorageAt(address_, key)).unwrap();
-      console.log(value.toString());
+      const p = new Table();
+      p.addRow(
+        { contract: address, key: key, value: value.toString() }
+      );
+      p.printTable();
     });
 
   program
@@ -239,14 +276,17 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       } else {
         for (const record of result.values()) {
           const { address, nonce, balance, code, storage } = record;
-          console.log(
-            `${address} nonce=${nonce} balance=${balance} code=${
-              code ? code.length : 0
-            }B`
+          const p = new Table();
+          p.addRow(
+            { address: address, nonce: nonce, balance: balance, code: code ? code.length : 0 }
           );
+          p.printTable();
+
+          const p2 = new Table();
           for (const [k, v] of storage) {
-            console.log(`  ${formatU256(k)} ${formatU256(v)}`);
+            p2.addRow({ key: formatU256(k), value: formatU256(v) });
           }
+          p.printTable();
         }
       }
     });
@@ -254,14 +294,22 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
   program
     .command('encode-address <account>')
     .action(async (account: string, _options, _command) => {
-      console.log(AccountID.parse(account).unwrap().toAddress().toString());
+      const p = new Table();
+      p.addRow(
+        { account: account, encoded: AccountID.parse(account).unwrap().toAddress().toString() }
+      );
+      p.printTable();
     });
 
   program
     .command('encode-hash <base58>')
     .aliases(['encode-block-id', 'encode-transaction-id'])
     .action(async (hash: string, _options, _command) => {
-      console.log(base58ToHex(hash));
+      const p = new Table();
+      p.addRow(
+        { hash: hash, encoded: base58ToHex(hash) }
+      );
+      p.printTable();
     });
 
   program.parse(argv);
