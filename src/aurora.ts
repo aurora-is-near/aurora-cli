@@ -11,7 +11,7 @@ import {
 } from '@aurora-is-near/engine';
 import { program } from 'commander';
 import { readFileSync } from 'fs';
-const { Table } = require('console-table-printer');
+import { Table } from 'console-table-printer';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
