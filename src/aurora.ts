@@ -8,6 +8,7 @@ import {
   Engine,
   base58ToHex,
   formatU256,
+  nep141FromErc20,
 } from '@aurora-is-near/engine';
 import { program } from 'commander';
 import { readFileSync } from 'fs';
@@ -262,6 +263,15 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .aliases(['encode-block-id', 'encode-transaction-id'])
     .action(async (hash: string, _options, _command) => {
       console.log(base58ToHex(hash));
+    });
+
+  program
+    .command('get-aurora-erc20 <tokenAddress>')
+    .action(async (tokenAddress: string, options, command) => {
+      const erc20Ethereum = Address.parse(tokenAddress).unwrap();
+      const nep141Near = nep141FromErc20(erc20Ethereum);
+      const [_, engine] = await loadConfig(command, options, env);
+      engine.getAuroraErc20Address(nep141Near);
     });
 
   program.parse(argv);
