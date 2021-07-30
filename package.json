@@ -37,9 +37,9 @@
   "bugs": "https://github.com/aurora-is-near/aurora-cli/issues",
   "repository": "https://github.com/aurora-is-near/aurora-cli.git",
   "dependencies": {
-    "@aurora-is-near/engine": "aurora-is-near/aurora.js#400b14c",
-    "commander": "^7.2.0",
     "console-table-printer": "^2.9.0"
+    "@aurora-is-near/engine": "aurora-is-near/aurora.js#376ebb7",
+    "commander": "^7.2.0"
   },
   "devDependencies": {
     "@tsconfig/node14": "^1.0.0",
