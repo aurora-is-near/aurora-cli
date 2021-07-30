@@ -271,7 +271,9 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const erc20Ethereum = Address.parse(tokenAddress).unwrap();
       const [config, engine] = await loadConfig(command, options, env);
       const nep141Near = ethErc20ToNep141(erc20Ethereum, config.network);
-      const auroraAddress = (await engine.getAuroraErc20Address(nep141Near)).unwrap();
+      const auroraAddress = (
+        await engine.getAuroraErc20Address(nep141Near)
+      ).unwrap();
       console.log(auroraAddress.toString());
     });
 
