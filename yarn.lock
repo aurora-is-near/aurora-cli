@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@aurora-is-near/engine@aurora-is-near/aurora.js#400b14c":
+"@aurora-is-near/engine@aurora-is-near/aurora.js#376ebb7":
   version "0.0.0"
-  resolved "https://codeload.github.com/aurora-is-near/aurora.js/tar.gz/400b14cdd583c526f75208e92dbe7b6a7088ec60"
+  resolved "https://codeload.github.com/aurora-is-near/aurora.js/tar.gz/376ebb71e42bf8bc457157d3c792182fe5caecc5"
   dependencies:
     "@ethersproject/abi" "^5.0.7"
     "@ethersproject/address" "^5.0.11"
