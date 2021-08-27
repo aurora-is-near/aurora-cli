@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@aurora-is-near/engine@aurora-is-near/aurora.js#c9ef37e":
+"@aurora-is-near/engine@aurora-is-near/aurora.js#9845b0f":
   "resolved" "git+ssh://git@github.com/aurora-is-near/aurora.js.git#c9ef37ede9b4497f2d81a933a0ea12267e8eedbe"
   "version" "0.0.0"
   dependencies:
