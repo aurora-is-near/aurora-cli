@@ -197,7 +197,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       ).unwrap();
       const p = new Table();
       p.addRow(
-        { contract: address, inputs: input, output: `0x${output ? Buffer.from(output).toString('hex') : ''}` }
+        { contract: address, inputs: input, output: `0x${output ? output.toString() : ''}` }
       );
       p.printTable();
     });
