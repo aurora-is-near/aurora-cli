@@ -11,7 +11,7 @@
 ## Installation
 
 ```shell
-npm install -g aurora-is-near/aurora-cli
+npm install -g @auroraisnear/cli
 ```
 
 ## Usage
