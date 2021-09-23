@@ -1,6 +1,6 @@
 {
-  "name": "@aurora-is-near/cli",
-  "version": "0.0.0",
+  "name": "@auroraisnear/cli",
+  "version": "0.0.1",
   "description": "Aurora Engine command-line interface (CLI).",
   "type": "module",
   "module": "lib/aurora.js",
