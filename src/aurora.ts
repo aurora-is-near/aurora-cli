@@ -62,9 +62,9 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const p = new Table();
       // TODO: combine these both into a single transaction:
       const transactionID1 = (await engine.install(contractCode)).unwrap();
-      p.addRow({ Type: "Install", Transaction_ID: transactionID1 });
+      p.addRow({ Type: 'Install', Transaction_ID: transactionID1 });
       const transactionID2 = (await engine.initialize(config)).unwrap();
-      p.addRow({ Type: "Initialize", Transaction_ID: transactionID2 });
+      p.addRow({ Type: 'Initialize', Transaction_ID: transactionID2 });
       if (config.verbose || config.debug) p.printTable();
     });
 
@@ -157,15 +157,19 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     });
 
   program
-    .command('call <address> <input>')
-    .action(async (address, input, options, command) => {
+    .command('call <address> <value> <input>')
+    .action(async (address, value, input, options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
       const address_ = Address.parse(readInput(address)).unwrap();
-      const output = (await engine.call(address_, readInput(input))).unwrap();
+      const output = (
+        await engine.call(address_, readInput(input), value)
+      ).unwrap();
       const p = new Table();
-      p.addRow(
-        { contract: address, inputs: input, output: `0x${output ? Buffer.from(output).toString('hex') : ''}` }
-      );
+      p.addRow({
+        contract: address,
+        inputs: input,
+        output: `0x${output ? Buffer.from(output).toString('hex') : ''}`,
+      });
       p.printTable();
     });
 
@@ -196,9 +200,11 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
         )
       ).unwrap();
       const p = new Table();
-      p.addRow(
-        { contract: address, inputs: input, output: `0x${output ? output.toString() : ''}` }
-      );
+      p.addRow({
+        contract: address,
+        inputs: input,
+        output: `0x${output ? output.toString() : ''}`,
+      });
       p.printTable();
     });
 
@@ -209,9 +215,10 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const address_ = Address.parse(readInput(address)).unwrap();
       const code = (await engine.getCode(address_)).unwrap();
       const p = new Table();
-      p.addRow(
-        { contract: address, code: `0x${code ? Buffer.from(code).toString('hex') : ''}` }
-      );
+      p.addRow({
+        contract: address,
+        code: `0x${code ? Buffer.from(code).toString('hex') : ''}`,
+      });
       p.printTable();
     });
 
@@ -222,9 +229,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const address_ = Address.parse(readInput(address)).unwrap();
       const balance = (await engine.getBalance(address_)).unwrap();
       const p = new Table();
-      p.addRow(
-        { address: address, balance: balance.toString() }
-      );
+      p.addRow({ address: address, balance: balance.toString() });
       p.printTable();
     });
 
@@ -235,9 +240,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const address_ = Address.parse(readInput(address)).unwrap();
       const nonce = (await engine.getNonce(address_)).unwrap();
       const p = new Table();
-      p.addRow(
-        { address: address, nonce: nonce.toString() }
-      );
+      p.addRow({ address: address, nonce: nonce.toString() });
       p.printTable();
     });
 
@@ -249,9 +252,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
       const address_ = Address.parse(readInput(address)).unwrap();
       const value = (await engine.getStorageAt(address_, key)).unwrap();
       const p = new Table();
-      p.addRow(
-        { contract: address, key: key, value: value.toString() }
-      );
+      p.addRow({ contract: address, key: key, value: value.toString() });
       p.printTable();
     });
 
@@ -278,9 +279,12 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
         for (const record of result.values()) {
           const { address, nonce, balance, code, storage } = record;
           const p = new Table();
-          p.addRow(
-            { address: address, nonce: nonce, balance: balance, code: code ? code.length : 0 }
-          );
+          p.addRow({
+            address: address,
+            nonce: nonce,
+            balance: balance,
+            code: code ? code.length : 0,
+          });
           p.printTable();
 
           const p2 = new Table();
@@ -296,9 +300,10 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .command('encode-address <account>')
     .action(async (account: string, _options, _command) => {
       const p = new Table();
-      p.addRow(
-        { account: account, encoded: AccountID.parse(account).unwrap().toAddress().toString() }
-      );
+      p.addRow({
+        account: account,
+        encoded: AccountID.parse(account).unwrap().toAddress().toString(),
+      });
       p.printTable();
     });
 
@@ -307,9 +312,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .aliases(['encode-block-id', 'encode-transaction-id'])
     .action(async (hash: string, _options, _command) => {
       const p = new Table();
-      p.addRow(
-        { hash: hash, encoded: base58ToHex(hash) }
-      );
+      p.addRow({ hash: hash, encoded: base58ToHex(hash) });
       p.printTable();
     });
 
