@@ -15,3 +15,5 @@ node_modules/
 
 # TypeDoc output
 docs/
+
+yarn-error.log
