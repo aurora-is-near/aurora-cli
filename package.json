@@ -38,7 +38,7 @@
   "repository": "https://github.com/aurora-is-near/aurora-cli.git",
   "dependencies": {
     "console-table-printer": "^2.9.0",
-    "@aurora-is-near/engine": "aurora-is-near/aurora.js#46df44a",
+    "@aurora-is-near/engine": "aurora-is-near/aurora.js#ee7dd4c",
     "commander": "^7.2.0"
   },
   "devDependencies": {
