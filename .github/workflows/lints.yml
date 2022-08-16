@@ -3,12 +3,25 @@ on: [push, pull_request]
 name: Lints
 jobs:
   eslint:
-    name: ESLint
+    name: ESLint & Prettier
     runs-on: ubuntu-latest
     steps:
-      - name: Clone the repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: pnpm
+
       - name: Install dependencies
-        run: npm install
+        run: pnpm install --frozen-lockfile
+
       - name: Run ESLint
-        run: npx eslint . --ext .ts,.tsx
+        run: pnpm eslint . --ext .ts,.tsx
+
+      - name: Run Prettier
+        run: pnpm prettier --check src

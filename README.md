@@ -4,6 +4,10 @@
 [![Discord](https://img.shields.io/discord/490367152054992913?label=Discord)](https://discord.gg/jNjHYUF8vw)
 [![Lints](https://github.com/aurora-is-near/aurora-cli/actions/workflows/lints.yml/badge.svg)](https://github.com/aurora-is-near/aurora-cli/actions/workflows/lints.yml)
 
+Latest version:
+
+[![npm version](https://badge.fury.io/js/@auroraisnear%2Fcli.svg)](https://badge.fury.io/js/@auroraisnear%2Fcli)
+
 ## Prerequisites
 
 - Node.js (v14+)
@@ -37,6 +41,7 @@ The CLI will load the following local keys by default, if found:
 - [`aurora get-bridge-prover`](#aurora-get-bridge-prover)
 - [`aurora get-chain-id`](#aurora-get-chain-id)
 - [`aurora get-upgrade-index`](#aurora-get-upgrade-index)
+- [`aurora get-aurora-erc20`](#aurora-get-aurora-erc20)
 - [`aurora stage-upgrade`](#aurora-stage-upgrade)
 - [`aurora deploy-upgrade`](#aurora-deploy-upgrade)
 - [`aurora deploy-code`](#aurora-deploy-code)
@@ -177,6 +182,16 @@ Options:
 ```console
 $ aurora stage-upgrade -h
 Usage: aurora stage-upgrade|stage_upgrade [options]
+
+Options:
+  -h, --help  display help for command
+```
+
+### `aurora get-aurora-erc20`
+
+```console
+$ aurora get-aurora-erc20 -h
+Usage: aurora get-aurora-erc20 [options] <tokenAddress>
 
 Options:
   -h, --help  display help for command
@@ -333,3 +348,8 @@ Options:
 alias aurora='node lib/aurora.js'
 export NEAR_URL=http://localhost:3030
 ```
+
+### Release new version
+
+1. Bump version in `package.json`
+2. Create release in [Releases](https://github.com/aurora-is-near/aurora-cli/releases)

@@ -1,9 +1,9 @@
 {
   "files": ["src/aurora.ts"],
-  "extends": "@tsconfig/node14/tsconfig.json",
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     "outDir": "./lib",
-    "target": "es2020",
+    "target": "es2021",
     "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
@@ -19,7 +19,7 @@
     "allowJs": true
   },
   "typedocOptions": {
-    "entryPoints": ["aurora.ts"],
+    "entryPoints": ["src/aurora.ts"],
     "includeVersion": false,
     "hideGenerator": true
   }
