@@ -1,5 +1,5 @@
-TSC = npx tsc
-TYPEDOC = npx typedoc
+TSC = pnpm tsc
+TYPEDOC = pnpm typedoc
 
 # The default target:
 
@@ -9,7 +9,7 @@ all: lib/aurora.js
 
 # Rules for development:
 
-lib/%.js: src/%.ts tsconfig.json package.json package-lock.json
+lib/%.js: src/%.ts tsconfig.json package.json pnpm-lock.yaml
 	$(TSC)
 
 lib/%.d.ts: lib/%.js

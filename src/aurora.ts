@@ -355,7 +355,7 @@ function readInput(input: string): string {
     return input[0] == '@'
       ? readFileSync(input.substring(1), 'ascii').trim()
       : input;
-  } catch (err) {
+  } catch (err: any) {
     console.error(err.toString());
     process.exit(-1);
   }
