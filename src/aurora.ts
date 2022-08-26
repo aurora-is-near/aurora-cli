@@ -110,7 +110,7 @@ async function main(argv: string[], env: NodeJS.ProcessEnv) {
     .command('get-bridge-prover')
     .action(async (options, command) => {
       const [_, engine] = await loadConfig(command, options, env);
-      const accountID = (await engine.getBridgeProvider()).unwrap();
+      const accountID = (await engine.getBridgeProver()).unwrap();
       const p = new Table();
       p.addRow({ bridge_prover: accountID.toString() });
       p.printTable();

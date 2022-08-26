@@ -1,6 +1,6 @@
 {
   "name": "@auroraisnear/cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Aurora Engine command-line interface (CLI).",
   "type": "module",
   "module": "lib/aurora.js",
@@ -40,7 +40,7 @@
   "repository": "https://github.com/aurora-is-near/aurora-cli.git",
   "dependencies": {
     "console-table-printer": "^2.9.0",
-    "@aurora-is-near/engine": "aurora-is-near/aurora.js#ee7dd4c",
+    "@aurora-is-near/engine": "aurora-is-near/aurora.js#f0b6478",
     "commander": "^7.2.0"
   },
   "devDependencies": {
