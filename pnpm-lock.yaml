@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@aurora-is-near/engine': aurora-is-near/aurora.js#ee7dd4c
+  '@aurora-is-near/engine': aurora-is-near/aurora.js#f0b6478
   '@tsconfig/node16': ^1.0.3
   '@types/jest': ^28.1.6
   '@types/node': ^16.11.7
@@ -17,7 +17,7 @@ specifiers:
   typescript: ^4.7.4
 
 dependencies:
-  '@aurora-is-near/engine': github.com/aurora-is-near/aurora.js/ee7dd4c
+  '@aurora-is-near/engine': github.com/aurora-is-near/aurora.js/f0b6478
   commander: 7.2.0
   console-table-printer: 2.11.0
 
@@ -3409,8 +3409,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  github.com/aurora-is-near/aurora.js/ee7dd4c:
-    resolution: {tarball: https://codeload.github.com/aurora-is-near/aurora.js/tar.gz/ee7dd4c}
+  github.com/aurora-is-near/aurora.js/f0b6478:
+    resolution: {tarball: https://codeload.github.com/aurora-is-near/aurora.js/tar.gz/f0b6478}
     name: '@aurora-is-near/engine'
     version: 0.0.0
     dependencies:
