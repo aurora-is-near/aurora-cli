@@ -1,3 +1,5 @@
+⚠ WARNING: This repository is no longer maintained. Please visit [Aurora CLI](https://github.com/aurora-is-near/aurora-cli-rs).
+
 # Aurora Engine Command-Line Interface (CLI)
 
 [![Project license](https://img.shields.io/badge/License-Public%20Domain-blue.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
